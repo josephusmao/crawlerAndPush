@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="org.springframework" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <!--<logger name="com.huigujia" level="info" additivity="true">-->
+    <!--<appender-ref ref="STDOUT" />-->
+    <!--</logger>-->
+
+    <!--<logger name="com.huigujia.im.service.impl.SysimUserServiceImpl" level="info" additivity="true">-->
+    <!--<appender-ref ref="file" />-->
+    <!--</logger>-->
+
+    <!--<logger name="com.huigujia.utils.Vcode" level="info" additivity="false">-->
+    <!--<appender-ref ref="vcodefile" />-->
+    <!--</logger>-->
+    <!---->
+    <!--<logger name="com.huigujia.payment" level="info" additivity="false">-->
+    <!--<appender-ref ref="payment" />-->
+    <!--</logger>-->
+
+    <!--<logger name="com.huigujia.common.mapper.SysCategoryCatMapper" level="none"/>-->
+    <!--<logger name="com.huigujia.common.mapper.AreaModelMapper" level="none"/>-->
+    <!--<logger name="com.huigujia.common.mapper.SysitemItemMapper.selectHydItems" level="none"/>-->
+    <!--<logger name="org.mybatis" level="info">-->
+    <!--<appender-ref ref="STDOUT"></appender-ref>-->
+    <!--</logger>-->
+</configuration>

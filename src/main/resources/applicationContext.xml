@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mongo="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/tx
-    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-    http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mongo="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+    <context:component-scan base-package="lik.kindle.cap"/>
+
+    <mvc:annotation-driven ignore-default-model-on-redirect="true">
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg name="defaultCharset" value="UTF-8"/>
+                <property name="writeAcceptCharset" value="false"/>
+            </bean>
+
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+                <property name="features">
+                    <list>
+                        <!--<value>WriteMapNullValue</value>-->
+                        <value>QuoteFieldNames</value>
+                    </list>
+                </property>
+                <property name="charset" value="utf8"/>
+                <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <!--</bean>-->
     <bean id="placeholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -16,77 +42,82 @@
         </property>
     </bean>
 
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${driver}"/>
-        <property name="url" value="${url}"/>
-        <property name="username" value="${username}"/>
-        <property name="password" value="${password}"/>
-        <property name="initialSize" value="15"/>
-        <property name="maxActive" value="20"/>
-        <property name="maxWait" value="60000"/>
-        <property name="poolPreparedStatements" value="true"/>
-        <property name="validationQuery" value="/* ping */SELECT 1"></property>
+    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/velocity/" />
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="output.encoding">UTF-8</prop>
+                <!--<prop key="velocimacro.library">macro/item_macro.vm,macro/trade_macro.vm,macro/page_macro.vm</prop>-->
+                <prop key="velocimacro.library.autoreload">true</prop>
+                <prop key="file.resource.loader.cache">false</prop>
+                <prop key="velocimacro.permissions.allow.inline.local.scope">true</prop>
+                <prop key="parser.pool.size">50</prop>
+            </props>
+        </property>
     </bean>
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+        <property name="cache" value="true" />
+        <property name="prefix" value="" />
+        <property name="suffix" value=".vm" />
+        <property name="contentType" value="text/html; charset=utf-8"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.velocity.VelocityLayoutView" />
+        <property name="layoutUrl" value="layouts/layout.vm" />
+        <property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml" />
+        <property name="requestContextAttribute" value="rc"/>
+        <property name="order" value="0"/>
+    </bean>
+
+
+    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
+    <!--<property name="driverClassName" value="${driver}"/>-->
+    <!--<property name="url" value="${url}"/>-->
+    <!--<property name="username" value="${username}"/>-->
+    <!--<property name="password" value="${password}"/>-->
+    <!--<property name="initialSize" value="15"/>-->
+    <!--<property name="maxActive" value="20"/>-->
+    <!--<property name="maxWait" value="60000"/>-->
+    <!--<property name="poolPreparedStatements" value="true"/>-->
+    <!--<property name="validationQuery" value="/* ping */SELECT 1"></property>-->
+    <!--</bean>-->
     <!--<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" abstract="false"-->
-          <!--lazy-init="false" autowire="default">-->
-        <!--<property name="dataSource">-->
-            <!--<ref bean="dataSource"/>-->
-        <!--</property>-->
+    <!--lazy-init="false" autowire="default">-->
+    <!--<property name="dataSource">-->
+    <!--<ref bean="dataSource"/>-->
+    <!--</property>-->
     <!--</bean>-->
     <!--&lt;!&ndash; 事务处理 &ndash;&gt;-->
     <!--<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
-        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--<property name="dataSource" ref="dataSource"/>-->
     <!--</bean>-->
     <!--<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">-->
-        <!--<property name="transactionManager" ref="transactionManager"/>-->
+    <!--<property name="transactionManager" ref="transactionManager"/>-->
     <!--</bean>-->
     <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
     <!--&lt;!&ndash; sqlSessionFactory配置 &ndash;&gt;-->
     <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
-        <!--<property name="mapperLocations" value="classpath*:com/huigujia/**/dao/xml/*.xml"></property>-->
-        <!--<property name="dataSource" ref="dataSource"/>-->
-        <!--<property name="configurationProperties">-->
-            <!--<props>-->
-                <!--<prop key="shopIds">${shopIds:0}</prop>-->
-                <!--<prop key="blackShopIds">${blackShopIds:0}</prop>-->
-            <!--</props>-->
-        <!--</property>-->
-        <!--<property name="plugins">-->
-            <!--<bean class="com.huigujia.common.interceptor.mybatis.PagingInterceptor"/>-->
-        <!--</property>-->
-        <!--<property name="typeHandlersPackage" value="com.huigujia.typehandler"/>-->
+    <!--<property name="mapperLocations" value="classpath*:com/huigujia/**/dao/xml/*.xml"></property>-->
+    <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--<property name="configurationProperties">-->
+    <!--<props>-->
+    <!--<prop key="shopIds">${shopIds:0}</prop>-->
+    <!--<prop key="blackShopIds">${blackShopIds:0}</prop>-->
+    <!--</props>-->
+    <!--</property>-->
+    <!--<property name="plugins">-->
+    <!--<bean class="com.huigujia.common.interceptor.mybatis.PagingInterceptor"/>-->
+    <!--</property>-->
+    <!--<property name="typeHandlersPackage" value="com.huigujia.typehandler"/>-->
     <!--</bean>-->
     <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
-        <!--<property name="basePackage" value="com.huigujia.**.mapper"/>-->
-        <!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
+    <!--<property name="basePackage" value="com.huigujia.**.mapper"/>-->
+    <!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
     <!--</bean>-->
 
     <bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
         <property name="hostName" value="${redis_host}"/>
         <property name="port" value="${redis_port}"/>
     </bean>
-
-
-    <mongo:repositories base-package="com.huigujia.common.mongo"/>
-
-    <mongo:mongo host="${mongo.host}" port="${mongo.port}">
-        <mongo:options
-                connections-per-host="${mongo.connectionsPerHost}"
-                threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
-                connect-timeout="${mongo.connectTimeout}"
-                max-wait-time="${mongo.maxWaitTime}"
-                auto-connect-retry="${mongo.autoConnectRetry}"
-                socket-keep-alive="${mongo.socketKeepAlive}"
-                socket-timeout="${mongo.socketTimeout}"
-                slave-ok="${mongo.slaveOk}"
-                write-number="1"
-                write-timeout="0"
-                write-fsync="true"/>
-    </mongo:mongo>
-
-    <mongo:db-factory dbname="store_location" mongo-ref="mongo"/>
-
-    <!-- OSSClien end -->
 
     <!-- httpClient -->
     <!-- 定义连接管理器 -->
@@ -110,12 +141,6 @@
           factory-bean="httpClientBuilder" factory-method="build" scope="prototype">
     </bean>
 
-    <!-- 定义清理无效连接
-    <bean class="com.taotao.common.httpclient.IdleConnectionEvictor"
-        destroy-method="shutdown">
-        <constructor-arg index="0" ref="httpClientConnectionManager" />
-    </bean>
-    -->
     <bean id="requestConfigBuilder" class="org.apache.http.client.config.RequestConfig.Builder">
         <!-- 创建连接的最长时间 -->
         <property name="connectTimeout" value="${httpClient.connectTimeout}"/>
