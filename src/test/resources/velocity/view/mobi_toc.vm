@@ -1,0 +1,20 @@
+#set($layout = "/layouts/empty_layout.vm")
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh" xml:lang="zh">
+<head>
+##    <meta charset="iso-8859-1" />
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>${title}</title>
+##    <link rel="stylesheet" href="style.css"  type="text/css" />
+</head>
+<body>
+<h1>Table of Contents</h1>
+    <ul>
+        #foreach($temp in $crawler.crawlerBodyList)
+            #if($temp.isSuccess())
+                <li><a href="${temp.num}.html">${temp.title}</a></li>
+            #end
+        #end
+    </ul>
+</body>
+</html>

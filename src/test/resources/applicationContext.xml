@@ -64,7 +64,7 @@
         <property name="contentType" value="text/html; charset=utf-8"/>
         <property name="viewClass" value="org.springframework.web.servlet.view.velocity.VelocityLayoutView" />
         <property name="layoutUrl" value="layouts/layout.vm" />
-        <property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml" />
+        <property name="toolboxConfigLocation" value="/toolbox.xml" />
         <property name="requestContextAttribute" value="rc"/>
         <property name="order" value="0"/>
     </bean>

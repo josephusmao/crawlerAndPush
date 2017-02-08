@@ -4,7 +4,7 @@ package lik.kindle.cap.model;
  * @author langyi
  * @date 2017/1/27.
  */
-public class CrawlerParam {
+public class CrawlerBody {
     private String url;
     private String title;
     private int num;
