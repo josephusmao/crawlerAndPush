@@ -1,0 +1,3 @@
+#set($layout = "/layouts/mobi_layout.vm")
+
+$body

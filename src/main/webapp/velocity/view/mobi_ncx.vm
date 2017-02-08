@@ -1,0 +1,21 @@
+#set($layout = "/layouts/empty_layout.vm")
+<?xml version="1.0"?>
+<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN"
+        "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
+    <head>
+    </head>
+    <docTitle>
+        <text>$!{crawler.name}</text>
+    </docTitle>
+    <navMap>
+##        <navPoint id="navpoint-0" playOrder="1"><navLabel><text>Content</text></navLabel><content src="toc.html"/></navPoint>
+
+        #foreach($body in $crawler.crawlerBodyList)
+            #if($body.isSuccess())
+                <navPoint id="navpoint-${body.num}" playOrder="${body.num}"><navLabel><text>${body.title}</text></navLabel><content src="${body.num}.html"/></navPoint>
+
+            #end
+        #end
+    </navMap>
+</ncx>
