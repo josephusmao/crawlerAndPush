@@ -4,8 +4,8 @@
 
     <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
         <!-- Fixed Layout, Region Magnificaiton & Children's Content -->
-        <meta name="fixed-layout" content="true"/>
-        <meta name="orientation-lock" content="landscape"/>
+##        <meta name="fixed-layout" content="true"/>
+##        <meta name="orientation-lock" content="landscape"/>
         <!-- <meta name="RegionMagnification" content="true"/> -->
         <dc-metadata xmlns:dc="http://purl.org/metadata/dublin_core" xmlns:oebpackage="http://openbook.org/namespaces/oeb-package/1.0/">
             <dc:title>$!{crawler.name}</dc:title>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="zh" xml:lang="zh">
+<html lang="zh">
 <head>
 ##    <meta charset="iso-8859-1" />
     <meta charset="UTF-8">
@@ -8,8 +8,8 @@
 ##    <link rel="stylesheet" href="style.css"  type="text/css" />
 </head>
 <body>
-<h2 id="ch2">${title}</h2>
+<h2 >${title}</h2>
     $screen_content
-<div class="pagebreak"></div>
+##<div class="pagebreak"></div>
 </body>
 </html>

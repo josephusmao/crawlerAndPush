@@ -60,7 +60,7 @@ public class ManagerServiceImpl implements ManagerService {
             @Override
             public void run() {
                 List<CrawlerBody> bodyList = crawler.getCrawlerBodyList();
-                final File path = new File("/Users/likan/Desktop/", crawler.getName());
+                final File path = new File("/Users/likan/temp/testCrawler", crawler.getName());
                 for (final CrawlerBody crawlerBody : bodyList) {
                     executorService.submit(new Runnable() {
                         @Override
